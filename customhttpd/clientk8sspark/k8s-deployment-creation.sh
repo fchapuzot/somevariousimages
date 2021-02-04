@@ -5,58 +5,48 @@
 # KUBERNETES_SERVICE_HOST and KUBERNETES_SERVICE_PORT are automaticly set in container
 
 curl -k \
-    -X POST \
-    -d @- \
-    -H "Authorization: Bearer $TOKEN" \
-    -H 'Accept: application/json' \
-    -H 'Content-Type: application/json' \
-    https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT/api/v1/namespaces/$NAMESPACE/pods <<'EOF'
-{
-   "kind": "Pod",
-  "apiVersion": "v1",
-  "metadata": {
-    "name": "hello-openshift",
-    "creationTimestamp": null,
-    "labels": {
-      "name": "hello-openshift"
-    }
-  },
-  "spec": {
-    "containers": [
-      {
-        "name": "hello-openshift",
-        "image": "httpd:latest",
-        "ports": [
-          {
-            "containerPort": 8080,
-            "protocol": "TCP"
-          }
-        ],
-        "resources": {},
-        "volumeMounts": [
-          {
-            "name":"tmp",
-            "mountPath":"/tmp"
-          }
-        ],
-        "terminationMessagePath": "/dev/termination-log",
-        "imagePullPolicy": "IfNotPresent",
-        "securityContext": {
-          "capabilities": {},
-          "privileged": false
+      --request POST \
+      -d @- \
+      -H "Authorization: Bearer $TOKEN" \
+      -H 'Accept: application/json' \
+      -H 'Content-Type: application/json' \
+      https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT/apis/apps/v1/namespaces/nsspark/deployments <<'EOF'
+  {
+     "metadata":{
+        "name":"apachedeployment01--1203040886",
+        "namespace": "nsspark"
+     },
+     "apiVersion":"apps/v1",
+     "kind":"Deployment",
+     "spec":{
+        "template":{
+           "metadata":{
+              "labels":{
+                 "app":"apachedeployment01--1203040886"
+              }
+           },
+           "spec":{
+              "containers":[
+                 {
+                    "imagePullPolicy":"Always",
+                    "image":"httpd:latest",
+                    "name":"apache01--464145008",
+                    "ports":[
+                       {
+                          "name":"http-endpoint",
+                          "containerPort":80
+                       }
+                    ]
+                 }
+              ]
+           }
+        },
+        "replicas":1,
+        "selector":{
+           "matchLabels":{
+              "app":"apachedeployment01--1203040886"
+           }
         }
-      }
-    ],
-    "volumes": [
-      {
-        "name":"tmp",
-        "emptyDir": {}
-      }
-    ],
-    "restartPolicy": "Always",
-    "dnsPolicy": "ClusterFirst",
-    "serviceAccount": ""
-  },
-  "status": {}
-}
+     }
+  }
 EOF
