@@ -1,5 +1,5 @@
-# This command has to used within a kubernetes pod on the image of Dockerfile
-# The pod has to be created with a ServiceAccount of have a rolebinding to deployments creation, update, delete
+# This command has to be used within a kubernetes pod on the image of Dockerfile
+# The pod has to be created with a ServiceAccount that has a rolebinding to deployments creation, update, delete
 # TOKEN : content of file /run/secrets/kubernetes.io/serviceaccount/token
 # NAMESPACE : content of file /run/secrets/kubernetes.io/serviceaccount/namespace
 # KUBERNETES_SERVICE_HOST and KUBERNETES_SERVICE_PORT are automaticly set in container
