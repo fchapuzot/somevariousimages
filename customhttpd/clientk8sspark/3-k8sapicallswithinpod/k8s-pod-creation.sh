@@ -3,6 +3,8 @@
 # TOKEN : content of file /run/secrets/kubernetes.io/serviceaccount/token
 # NAMESPACE : content of file /run/secrets/kubernetes.io/serviceaccount/namespace
 # KUBERNETES_SERVICE_HOST and KUBERNETES_SERVICE_PORT are automaticly set in container
+export NAMESPACE=$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace)
+export TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
 
 curl -k \
     -X POST \

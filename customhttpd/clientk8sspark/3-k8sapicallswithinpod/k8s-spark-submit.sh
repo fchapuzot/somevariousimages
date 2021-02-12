@@ -5,6 +5,8 @@
 # SERVICEACCOUNT : serviceaccount of Kubernetes namespace where the image of Docker file has been deployed
 # This ServiceAccount needs to have a rolebinding to pods, services, configmaps creation, update, delete
 # KUBERNETES_SERVICE_HOST and KUBERNETES_SERVICE_PORT are automaticly set in container
+export NAMESPACE=$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace)
+export TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
 
 ./spark-submit --master k8s://https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT \
  --deploy-mode cluster \
